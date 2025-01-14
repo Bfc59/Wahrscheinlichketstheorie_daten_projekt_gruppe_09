@@ -22,7 +22,7 @@ def descriptive_values(filename, column_name, val=False, file=False, outputname=
     if val:  # Sortieren der Daten nach der angegebenen Spalte
         df = df.sort_values(by=column_name)
 
-    # Mittelwert
+    #Mittelwert
     mean = df[column_name].mean()
 
     # Median

@@ -2,65 +2,93 @@ import pandas as pd
 import statistics
 import matplotlib.pyplot as plt
 
-def descriptive_values(filename,column_name,val=False,file=False,outputname=None):
-                     #(Dateiname,gew.Spalte,sortieren.j/n,dateiErstellen?,Name der erstellten Datei(falls ja))
-    df = pd.read_csv(filename,sep = ';')
+def descriptive_values(filename, column_name, val=False, file=False, outputname=None):
+    """
+    Funktion zur Berechnung verschiedener statistischer Kennzahlen, einschließlich Quartilen, Dezilen und Quartilsabstand.
 
-    if val == True:    #man kann entscheiden ob die Werte sortiert oder unsortiert bearbeitet werden
+    Parameter:
+        filename (str): Pfad zur CSV-Datei.
+        column_name (str): Name der Spalte, die analysiert werden soll.
+        val (bool): Ob die Daten sortiert analysiert werden sollen.
+        file (bool): Ob die Daten in eine neue Datei gespeichert werden sollen.
+        outputname (str): Name der Ausgabedatei (falls file=True).
+
+    Rückgabewerte:
+        list: Eine Liste mit den berechneten Werten.
+    """
+    # Daten einlesen
+    df = pd.read_csv(filename, sep=';')
+
+    if val:  # Sortieren der Daten nach der angegebenen Spalte
         df = df.sort_values(by=column_name)
 
-    #Mittelwert
+    # Mittelwert
     mean = df[column_name].mean()
 
-    #Median
+    # Median
     median = df[column_name].median()
 
-    #Modus
-    mode = df[column_name].mode()
+    # Modus
+    mode = df[column_name].mode().tolist()  # Gibt eine Liste der häufigsten Werte zurück
 
-    #Spannweite
-    range = df[column_name].max() - df[column_name].min()
+    # Spannweite
+    value_range = df[column_name].max() - df[column_name].min()
 
     # Stichprobenvarianz berechnen
     sample_variance = df[column_name].var(ddof=1)
 
-    #Variationskoeffizient
+    # Variationskoeffizient
     variation_coefficient = df[column_name].std(ddof=1) / df[column_name].mean()
 
     # Mittlere Abweichung vom Median
     mad_from_median = (df[column_name] - df[column_name].median()).abs().mean()
 
-    #Datei mit Werten ausgeben
-    if file == True:
-        df.to_csv(outputname)
+    # Quartile berechnen
+    quartile = {
+        'Q1': df[column_name].quantile(0.25),
+        'Q2 (Median)': df[column_name].quantile(0.5),
+        'Q3': df[column_name].quantile(0.75)
+    }
 
-    if val == True:
+    # Dezile berechnen
+    dezile = {f'D{i}': df[column_name].quantile(i * 0.1) for i in range(1, 10)}
+
+    # Quartilsabstand (R_Q0.5) berechnen
+    quartile_range = quartile['Q3'] - quartile['Q1']
+
+    # Optional: Ergebnisse in eine Datei schreiben
+    if file:
+        df.to_csv(outputname, index=False)
+
+    # Ergebnisse anzeigen
+    if val:
         print("Werte für sortierte Liste:\n")
     else:
         print("Werte für unsortierte Liste:\n")
 
-    values = ["mean:",mean,"median:",median,"mode:",mode,"range:",range,"sample_variance:",
-              sample_variance,"variation_coefficient:",variation_coefficient,
-              "mad_from_median:",mad_from_median]
+    values = [
+        "mean:", mean,
+        "median:", median,
+        "mode:", mode,
+        "range:", value_range,
+        "sample_variance:", sample_variance,
+        "variation_coefficient:", variation_coefficient,
+        "mad_from_median:", mad_from_median,
+        "quartile:", quartile,
+        "quartile_range (R_Q0.5):", quartile_range,
+        "dezile:", dezile
+    ]
     return values
-############
 
-result = descriptive_values('data-1.csv','Percent change from a year ago',False)
+############### Hauptprogramm ################
+
+# Beispiel für die unsortierte Liste
+result = descriptive_values('data-1.csv', 'Percent change from a year ago', val=False)
 for i in result:
     print(i)
 
-result_sorted = descriptive_values('data-1.csv','Percent change from a year ago',True)
+# Beispiel für die sortierte Liste
+result_sorted = descriptive_values('data-1.csv', 'Percent change from a year ago', val=True)
 for i in result_sorted:
     print(i)
 
-#x_werte = df1['DATE']  # Ersetze 'Spalte1' durch den tatsächlichen Spaltennamen
-#y_werte = df1['Percent change from a year ago']
-
-#plt.scatter(x_werte, y_werte, color='red')
-#plt.xlabel('X-Achse (Spalte1)')
-#plt.ylabel('Y-Achse (Spalte2)')
-#plt.title('Punktdiagramm aus CSV-Werten')
-#plt.show()
-
-#df.to_csv('urliste_daten.csv',index=False)
-#df_sorted_percent.to_csv('sorted_data_percent.csv', index=False)

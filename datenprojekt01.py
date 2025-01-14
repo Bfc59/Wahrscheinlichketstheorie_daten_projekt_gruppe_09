@@ -9,6 +9,8 @@ def descriptive_values(filename,column_name,val=False,file=False,outputname=None
     if val == True:    #man kann entscheiden ob die Werte sortiert oder unsortiert bearbeitet werden
         df = df.sort_values(by=column_name)
 
+    # Kovarianz 
+    
     #Mittelwert
     mean = df[column_name].mean()
 

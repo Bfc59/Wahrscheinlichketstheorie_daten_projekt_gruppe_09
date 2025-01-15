@@ -1,6 +1,7 @@
 import pandas as pd
 import statistics
 import matplotlib.pyplot as plt
+from scipy.stats import spearmanr
 
 def descriptive_values(filename, column_name, val=False, file=False, outputname=None):
     """
@@ -22,7 +23,7 @@ def descriptive_values(filename, column_name, val=False, file=False, outputname=
     if val:  # Sortieren der Daten nach der angegebenen Spalte
         df = df.sort_values(by=column_name)
 
-    #Mittelwert
+    # Mittelwert
     mean = df[column_name].mean()
 
     # Median
@@ -80,6 +81,17 @@ def descriptive_values(filename, column_name, val=False, file=False, outputname=
     ]
     return values
 
+def calculate_spearman_from_csv(file_path):
+    """
+    Berechnet den Spearman-Rangkorrelationskoeffizienten aus einer CSV-Datei.
+
+    :param file_path: Pfad zur CSV-Datei.
+    :return: Spearman-Koeffizient.
+    """
+    data = pd.read_csv(file_path, sep=';')
+    coefficient, _ = spearmanr(data.iloc[:, 0], data.iloc[:, 1])
+    return coefficient
+
 ############### Hauptprogramm ################
 
 # Beispiel für die unsortierte Liste
@@ -92,3 +104,6 @@ result_sorted = descriptive_values('data-1.csv', 'Percent change from a year ago
 for i in result_sorted:
     print(i)
 
+# Berechnung des Spearman-Rangkorrelationskoeffizienten
+spearman_coeff = calculate_spearman_from_csv('data-1.csv')
+print(f"Spearman-Rangkorrelationskoeffizient: {spearman_coeff}")

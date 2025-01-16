@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 def plots(filename,xlable,ylable,title,box=False,scatter=False):
     #einlesen
-    df = pd.read_csv(filename,sep = ';')
+    df = pd.read_csv(filename,sep = ',')
 
     if box == True:
     # Boxplot für den DataFrame erstellen

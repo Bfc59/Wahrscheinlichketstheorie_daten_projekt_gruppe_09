@@ -1,7 +1,7 @@
 import pandas as pd
 
 # CSV-Datei einlesen
-df = pd.read_csv('data-2.csv', sep=';', header=0)
+df = pd.read_csv('data-2.csv', sep=',', header=0)
 
 # Spaltennamen zusammenführen und umbenennen
 df.columns = ['Jahr', 'Lebendgeborene (Anzahl) Insgesamt']

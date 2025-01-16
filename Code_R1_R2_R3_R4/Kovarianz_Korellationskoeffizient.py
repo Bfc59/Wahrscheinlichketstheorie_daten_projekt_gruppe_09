@@ -20,11 +20,7 @@ correlation = df['Jahr'].corr(df['Lebendgeborene (Anzahl) Insgesamt'])
 
 print("Korellationskoeffizient: ",correlation)
 
-"""Das Programm berechnet die Kovarianz zwischen einer Tabellenspalte DATE_numeric, in der Daten im Format
-TT.MM.JJJJ in Anzahl der Tage umgewandelt wird, die seit dem ersten vorhandenen Datum vergangen sind, damit
-die Kovarianz der beiden vorhandenen Spalten mit numerischen Werten berechnet werden kann. Wenn man in Exel
-die Kovarianz der einzelnen Spalte  'Percent change...' berechnen lässt, kommt ein ähnlicher Wert heraus, wie
-wenn man es hier macht, mit dem Unterschie dass Exel die Daten nicht in numereische Werte umwandeln kann.
-Dass es eigentlich wenig Sinn ergibt, einen ernsthaften Zusammenhang zwischen Jahreszahlen und prozentualen
-Veränderungen von Immobilienpreisen zu suchen (mit Ausnahme von großen Ereignissen wie z.B. Wirtschaftskrisen
-oder etwas dergleichen), ist hier zu beachten! """
+"""Das Programm dient zu Berechnung der Kovarianz und des Korellationskoeffizienten der gegebenen Datensätze. Für den ersten
+Datensatz musste das Datum vom Format TT.MM.JJJJ in einen numerischen Wert (Anzahl der Tage die seit dem ersten Datum vergangen
+sind) umgerechnet werden, damit überhaupt ein Wert berechnet werden konnte. Für die restlichen Datensätze wurder die Befehle,
+die auf den ersten Datensatz bezogen waren einfach auskommentiert."""

@@ -1,5 +1,13 @@
+"""Der vorliegende Code ist eine Funktion, welche als Parameter den Namen einer .csv Datei, sowie einen Spaltennamen annimmt. Für die gegebene Funktion
+werden dann sämtliche Werte berechnet, die im Lastenheft gewünscht sind und in eine Liste eingetragen, welche mit dem return-Befehl ausgegeben wird.
+Durch den Befehl result = descriptive_values(...) [...] print(i) werden besagte Werte in der Konsole ausgegeben und sind leicht ablesbar. Der Sinn dahinter ist,
+dass man für beliebige Datensätze sehr schnell alle Werte berechnen kann, ohne irgendwelche Befehle unnötig oft eingeben zu müssen. Des weiteren Kann man mit "val" 
+auch angeben ob die eingegebene Spalte sortiert werden soll sowie mit file, ob die sortierte Liste als neue Datei gespeichert werden soll oder nicht, was sich 
+bei der Sortierung der Listen bezahlt gemacht hat. Outputname ist dementsprechend der Name der neuen, sortierten Liste.
+Der Spearman-Rangkorrelationskoeffizient wurde nachträglich hinzugefügt und ist somit nicht in der Funktion, weshalb er einzeln aufgerufen werden muss."""
+
+
 import pandas as pd
-#import statistics
 import matplotlib.pyplot as plt
 from scipy.stats import spearmanr
 
@@ -18,7 +26,7 @@ def descriptive_values(filename, column_name, val=False, file=False, outputname=
         list: Eine Liste mit den berechneten Werten.
     """
     # Daten einlesen
-    df = pd.read_csv(filename, sep=';')
+    df = pd.read_csv(filename, sep=',')
 
     if val:  # Sortieren der Daten nach der angegebenen Spalte
         df = df.sort_values(by=column_name)
@@ -88,7 +96,7 @@ def calculate_spearman_from_csv(file_path):
     :param file_path: Pfad zur CSV-Datei.
     :return: Spearman-Koeffizient.
     """
-    data = pd.read_csv(file_path, sep=';')
+    data = pd.read_csv(file_path, sep=',')
     coefficient, _ = spearmanr(data.iloc[:, 0], data.iloc[:, 1])
     return coefficient
 
